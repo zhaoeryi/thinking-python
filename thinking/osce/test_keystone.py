@@ -1,4 +1,4 @@
-import _hacking
+import thinking
 import httplib
 import json
 import urllib
@@ -14,7 +14,7 @@ _opts = [
     cfg.StrOpt('os_tenant_name'),
     cfg.StrOpt('admin_token'),
     ]
-_hacking.CONF.register_opts(_opts)
+thinking.CONF.register_opts(_opts)
 
 LOG = logging.getLogger("hacking")
 
@@ -59,7 +59,7 @@ def json_request(host, port, method, path, body=None, additional_headers=None):
 
     return response, data
 
-class KeystoneTestCase(_hacking.HackingTestCase):
+class KeystoneTestCase(thinking.HackingTestCase):
 
 
     def verify_uuid_token(self, user_token):

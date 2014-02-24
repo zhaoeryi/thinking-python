@@ -1,7 +1,7 @@
 #coding=utf-8 
 
 import logging
-import _hacking
+import thinking
 
 # http://blog.csdn.net/beckel/article/details/3945147
 # function with decorator 
@@ -87,7 +87,7 @@ class DecoratorWithArguments(object):
             print "After f(*args)"
         return wrapped_f
             
-class DecoratorTestCase(_hacking.HackingTestCase):
+class DecoratorTestCase(thinking.HackingTestCase):
     def test_DecoratorFunctionWithArguments(self):
        
         @decoratorFunctionWithArguments("myarg", mykey='myvalue')

@@ -1,4 +1,4 @@
-import _hacking
+import thinking
 import sys
 
 def get_windows_network_adapters():
@@ -29,12 +29,12 @@ def get_windows_network_adapters():
                                     'subnet-mask': subnet_mask})
     return network_adapters
 
-class Win32comTestCase(_hacking.HackingTestCase):
+class Win32comTestCase(thinking.HackingTestCase):
     def test_platform(self):
         print 'sys.platform = %s' % sys.platform
-        self.assertEqual('win32', sys.platform)
         
     def test_get_windows_network_adapters(self):
-        adapters = get_windows_network_adapters()
-        for ada in adapters:
-            print ada
+        if sys.platform == 'win32':
+            adapters = get_windows_network_adapters()
+            for ada in adapters:
+                print ada

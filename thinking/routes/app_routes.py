@@ -1,7 +1,7 @@
 from paste.deploy import loadapp
 from webob import Request, Response
 from wsgiref.simple_server import make_server
-import _hacking
+import thinking
 import logging
 
 import os
@@ -9,7 +9,7 @@ import routes.middleware
 import webob.dec
 import webob.exc
             
-logger = _hacking.logger
+logger = thinking.logger
 
 # app
 class action_contr():
@@ -71,7 +71,7 @@ def start_server():
     server.serve_forever()
     
 
-class RoutesTestCase(_hacking.HackingTestCase):
+class RoutesTestCase(thinking.HackingTestCase):
     def test_api_router(self):
         result = webob.Request.blank('/test').get_response(api_router())
         self.assertEqual(result.body, "Hacking, World!")

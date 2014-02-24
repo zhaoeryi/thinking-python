@@ -1,4 +1,4 @@
-import _hacking
+import thinking
 
 # http://blog.jobbole.com/21351/
 # see nova.api.openstack.wsgi.ControllerMetaclass
@@ -52,6 +52,6 @@ class MySubKlass(MyKlass):
     def foo(self):
         pass
        
-class MetaClassTestCase(_hacking.HackingTestCase):   
+class MetaClassTestCase(thinking.HackingTestCase):   
     def test_new_instance(self):
         pass

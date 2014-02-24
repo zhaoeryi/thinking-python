@@ -1,8 +1,8 @@
-import _hacking
+import thinking
 import pkg_resources
 
 
-class EntrypointTestCase(_hacking.HackingTestCase):  
+class EntrypointTestCase(thinking.HackingTestCase):  
         
         def test_load_entry_point_with_require(self):
             __requires__ = 'testegg==0.1.0'

@@ -1,4 +1,4 @@
-import _hacking
+import thinking
 
 class MyObj(object):
     def member_method(self, *arg):
@@ -23,7 +23,7 @@ class MySubClass(MyClass):
     def static_method(*arg):
         print "in MySubClass static method, arg=", arg
                
-class MethodTestCase(_hacking.HackingTestCase):
+class MethodTestCase(thinking.HackingTestCase):
     def test_invoke_method_byattr(self):
         obj = MyObj()
         meth = getattr(obj, "member_method")

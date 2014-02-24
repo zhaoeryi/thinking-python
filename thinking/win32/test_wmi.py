@@ -1,10 +1,10 @@
-import _hacking
+import thinking
 import sys
 
 if sys.platform == 'win32':
     import wmi
     
-class WMIcomTestCase(_hacking.HackingTestCase):
+class WMIcomTestCase(thinking.HackingTestCase):
     
     def setUp(self):
         if sys.platform == 'win32':

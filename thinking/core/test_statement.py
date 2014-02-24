@@ -1,5 +1,5 @@
 # coding=utf-8
-import _hacking
+import thinking
 
 class MyWithKlass(object):
 
@@ -22,7 +22,7 @@ class MyWithKlass(object):
     def myfunc(self):
         print "Entering MyWithKlass.myfunc"   
          
-class StatementTestCase(_hacking.HackingTestCase):
+class StatementTestCase(thinking.HackingTestCase):
     def test_statement_with(self):
         # http://effbot.org/zone/python-with-statement.htm
         with MyWithKlass() as instance:

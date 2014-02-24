@@ -1,7 +1,7 @@
 import collections
-import _hacking
+import thinking
 
-class CollectionsTestCase(_hacking.HackingTestCase):
+class CollectionsTestCase(thinking.HackingTestCase):
     def test_deque(self):
         # double-ended queue
         DUP_MSG_CHECK_SIZE = 16
@@ -17,7 +17,7 @@ class CollectionsTestCase(_hacking.HackingTestCase):
         for i in deque:
             print i
             
-class DictTestCase(_hacking.HackingTestCase):
+class DictTestCase(thinking.HackingTestCase):
     def test_setdefault(self):
         key = "mykey" 
         default_value = "default value"
@@ -34,7 +34,7 @@ class DictTestCase(_hacking.HackingTestCase):
         self.assertNotEqual(_MAPS.get(key), default_value);
         self.assertEqual(_MAPS.get(key), new_value);
         
-class ArrayTestCase(_hacking.HackingTestCase):
+class ArrayTestCase(thinking.HackingTestCase):
     def test_append(self):
         arr = [1, 2, 3]
         arr.append("4")

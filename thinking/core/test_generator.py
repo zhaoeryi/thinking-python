@@ -1,5 +1,5 @@
 # coding=utf-8
-import _hacking
+import thinking
 import itertools
 import inspect
 
@@ -10,7 +10,7 @@ class MyIterKlass(object):
         for i in [0, 1, 2]:
             yield i
 
-class GeneratorTestCase(_hacking.HackingTestCase):
+class GeneratorTestCase(thinking.HackingTestCase):
     def test_count_with_next(self):
         firstval = 99
         num = itertools.count(firstval)

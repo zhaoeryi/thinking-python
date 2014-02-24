@@ -1,7 +1,7 @@
-import _hacking
+import thinking
 import os
 
-class PathNameTestCase(_hacking.HackingTestCase):
+class PathNameTestCase(thinking.HackingTestCase):
     def test_basename(self):
         basename = os.path.basename('c://a/b/c.txt')
         print 'basename=%s' % basename

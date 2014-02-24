@@ -1,16 +1,16 @@
 # coding=utf-8
 # http://blog.csdn.net/hackerain/article/details/7875614
 from kombu import messaging, entity
-import _hacking
+import thinking
 import kombu
 import time
 
-LOG = _hacking.logger
-class KombuTestCase(_hacking.HackingTestCase):   
+LOG = thinking.logger
+class KombuTestCase(thinking.HackingTestCase):   
 
     def setUp(self):
        
-        self._hack_conn =  kombu.connection.BrokerConnection('amqp://guest:guest@localhost:5672//')
+        self._hack_conn =  kombu.connection.BrokerConnection('amqp://guest:guest@127.0.0.1:5672//')
         self._hack_channel = self._hack_conn.channel()
 
         # 定义了一个 topic 类型的 exchange

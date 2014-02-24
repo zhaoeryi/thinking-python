@@ -1,5 +1,5 @@
 from webob import Request
-import _hacking
+import thinking
 import routes.middleware
 import webob.dec
 import webob.exc

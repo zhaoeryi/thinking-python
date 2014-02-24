@@ -6,14 +6,14 @@ from oslo.config import cfg
 print "package ", __file__, "is loaded"
 
 # see example at: nova\openstack\common\log.py
-log_config = "C:\Z\workspace\stack\_hacking\_hacking\logging.conf"
+log_config = "/home/zhyizhyi/workspace/stack/thinking-python/thinking/logging.conf"
 if log_config:
     logging.config.fileConfig(log_config)
 
-logger = logging.getLogger("hacking")
+logger = logging.getLogger("thinking")
 
 CONF = cfg.CONF
-CONF(args=['--config-file', 'C:\\Z\\workspace\\stack\\_hacking\\_hacking\\ _hacking.conf'])
+CONF(args=['--config-file', '/home/zhyizhyi/workspace/stack/thinking-python/thinking/thinking.conf'])
 
 class HackingTestCase(testtools.TestCase):
 

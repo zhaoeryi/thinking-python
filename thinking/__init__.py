@@ -15,14 +15,14 @@ logger = logging.getLogger("thinking")
 CONF = cfg.CONF
 CONF(args=['--config-file', '/home/zhyizhyi/workspace/stack/thinking-python/thinking/thinking.conf'])
 
-class HackingTestCase(testtools.TestCase):
+class ThinkingTestCase(testtools.TestCase):
 
     def setUp(self):
         print "\n"
         # print "====================", self.id(), "===================="
         print "==============================", self._testMethodName, "=============================="
         """Run before each test method to initialize test environment."""
-        super(HackingTestCase, self).setUp()
+        super(ThinkingTestCase, self).setUp()
 
     def tearDown(self):
-        super(HackingTestCase, self).tearDown()
+        super(ThinkingTestCase, self).tearDown()

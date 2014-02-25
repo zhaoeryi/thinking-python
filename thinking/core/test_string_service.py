@@ -1,6 +1,6 @@
 import thinking
 
-class StringTestCase(thinking.HackingTestCase):
+class StringTestCase(thinking.ThinkingTestCase):
     def test_partition(self):
         log_levels = ['root=INFO',
                     'routes.middleware=DEBUG',

@@ -6,7 +6,7 @@ import kombu
 import time
 
 LOG = thinking.logger
-class KombuTestCase(thinking.HackingTestCase):   
+class KombuTestCase(thinking.ThinkingTestCase):   
 
     def setUp(self):
        

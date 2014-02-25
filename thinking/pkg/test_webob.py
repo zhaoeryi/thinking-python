@@ -15,6 +15,6 @@ def my_func(req):
         raise webob.exc.HTTPForbidden
     
     
-class WsgifyTestCase(thinking.HackingTestCase): 
+class WsgifyTestCase(thinking.ThinkingTestCase): 
     def test_fake(self):
         pass   

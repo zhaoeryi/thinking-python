@@ -1,4 +1,4 @@
-import _hacking
+import thinking
 import sys
 import time
 import kombu
@@ -6,7 +6,7 @@ import kombu.connection
 import kombu.entity
 import kombu.messaging
 
-LOG = _hacking.logger
+LOG = thinking.logger
 
 class Connection(object):
     """Connection object."""

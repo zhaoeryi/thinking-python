@@ -23,7 +23,7 @@ class MySubClass(MyClass):
     def static_method(*arg):
         print "in MySubClass static method, arg=", arg
                
-class MethodTestCase(thinking.HackingTestCase):
+class MethodTestCase(thinking.ThinkingTestCase):
     def test_invoke_method_byattr(self):
         obj = MyObj()
         meth = getattr(obj, "member_method")

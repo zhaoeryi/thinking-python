@@ -43,7 +43,7 @@ def decoratorFunctionWithArguments(*dec_args, **dec_kwargs):
         return wrapped_f
     return wrap
 
-class DecoratorWithoutArguments(object):
+class DecoratorClassWithoutArguments(object):
     def __init__(self, f):
         """
         If there are no decorator arguments, the function
@@ -62,7 +62,7 @@ class DecoratorWithoutArguments(object):
         self.f(*args)
         print "After self.f(*args)"
         
-class DecoratorWithArguments(object):
+class DecoratorClassWithArguments(object):
  
     def __init__(self, *dec_args):
         """
@@ -87,7 +87,7 @@ class DecoratorWithArguments(object):
             print "After f(*args)"
         return wrapped_f
             
-class DecoratorTestCase(thinking.HackingTestCase):
+class DecoratorTestCase(thinking.ThinkingTestCase):
     def test_DecoratorFunctionWithArguments(self):
        
         @decoratorFunctionWithArguments("myarg", mykey='myvalue')
@@ -100,9 +100,9 @@ class DecoratorTestCase(thinking.HackingTestCase):
         print "Preparing to call sayHello()"
         sayHello("say", "hello", "argument", "list")
     
-    def test_DecoratorWithoutArguments(self):
+    def test_DecoratorClassWithoutArguments(self):
         print "Before decoration"
-        @DecoratorWithoutArguments
+        @DecoratorClassWithoutArguments
         def sayHello(a1, a2, a3, a4):
             print 'Inside sayHello'
             print 'sayHello arguments:', a1, a2, a3, a4
@@ -112,8 +112,8 @@ class DecoratorTestCase(thinking.HackingTestCase):
         print "Preparing to call sayHello()"
         sayHello("say", "hello", "argument", "list")
 
-    def test_DecoratorWithArguments(self):
-        @DecoratorWithArguments("hello", "world", 42)
+    def test_DecoratorClassWithArguments(self):
+        @DecoratorClassWithArguments("hello", "world", 42)
         def sayHello(a1, a2, a3, a4):
             print 'Inside sayHello'
             print 'sayHello arguments:', a1, a2, a3, a4

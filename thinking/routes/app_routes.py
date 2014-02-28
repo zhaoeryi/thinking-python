@@ -21,7 +21,7 @@ class action_contr():
         print "in action_contr._call_"
         print environ["QUERY_STRING"]
         start_response('200 OK', [('Content-Type', 'text/plain')])
-        return ['Hacking, World!']
+        return ['Hello World!']
     
 # app
 class api_router():
@@ -64,17 +64,17 @@ class api_router():
 
 def start_server():
     logger.debug("start server......")
-    configfile = "_hacking/routes/app_routes.ini"
+    configfile = "thinking/routes/app_routes.ini"
     compositename = "test_comp"
     wsgi_app = loadapp("config:%s" % os.path.abspath(configfile), compositename)
     server = make_server('localhost', 8080, wsgi_app)
     server.serve_forever()
     
 
-class RoutesTestCase(thinking.HackingTestCase):
+class RoutesTestCase(thinking.ThinkingTestCase):
     def test_api_router(self):
         result = webob.Request.blank('/test').get_response(api_router())
-        self.assertEqual(result.body, "Hacking, World!")
+        self.assertEqual(result.body, "Hello World!")
                     
 if __name__ == '__main__':
     start_server()

@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import sys
-from neutron import server
+from neutron.server import main
 
 if __name__ == "__main__":
     # ML2 Plugin
@@ -9,5 +9,5 @@ if __name__ == "__main__":
     
     # OVS Plugin
     sys.argv = ['/usr/local/bin/neutron-server', '--config-file', '/etc/neutron/neutron.conf', '--config-file', '/etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini']
-    server.main()
+    main()
 

@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Stop all stack services
+~/workspace/stack/devstack/unstack.sh
+
 # Clean up the remainder of the screen processes
 SCREEN=$(which screen)
 if [[ -n "$SCREEN" ]]; then
@@ -10,6 +13,9 @@ if [[ -n "$SCREEN" ]]; then
 	done
     fi
 fi
+
+mkdir -p ~/workspace/stack/logs
+SCREEN_LOGDIR=$(cd ~/workspace/stack/logs && pwd)
 
 TOP_DIR=$(cd $(dirname "$0") && pwd)
 
@@ -88,7 +94,7 @@ SWIFT_CONFIG_DIR=${SWIFT_CONFIG_DIR:-/etc/swift}
 # that.
 SWIFT_LOOPBACK_DISK_SIZE=${SWIFT_LOOPBACK_DISK_SIZE:-1000000}
 
-# The ring uses a configurable number of bits from a path’s MD5 hash as
+# The ring uses a configurable number of bits from a path?s MD5 hash as
 # a partition index that designates a device. The number of bits kept
 # from the hash is known as the partition power, and 2 to the partition
 # power indicates the partition count. Partitioning the full MD5 hash
@@ -168,7 +174,7 @@ function screen_it {
         if [[ -n ${SCREEN_LOGDIR} ]]; then
             screen -S stack -p $1 -X logfile ${SCREEN_LOGDIR}/screen-${1}.${CURRENT_LOG_TIME}.log
             screen -S stack -p $1 -X log on
-            ln -sf ${SCREEN_LOGDIR}/screen-${1}.${CURRENT_LOG_TIME}.log ${SCREEN_LOGDIR}/screen-${1}.log
+            ln -sf ${SCREEN_LOGDIR}/screen-${1}.${CURRENT_LOG_TIME}.log ${SCREEN_LOGDIR}/${1}.log
         fi
         screen -S stack -p $1 -X stuff "$2$NL"
     fi
@@ -204,15 +210,20 @@ screen_it c-bak 'cd /opt/stack/cinder && /usr/local/bin/cinder-backup --config-f
 screen_it c-vol 'cd /opt/stack/cinder && /usr/local/bin/cinder-volume --config-file /etc/cinder/cinder.conf'
 
 # Neutron
-#screen_it q-svc 'cd /opt/stack/neutron && python /usr/local/bin/neutron-server --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini'
+sudo ovs-vsctl --no-wait -- --may-exist add-br br-int
+sudo ovs-vsctl --no-wait br-set-external-id br-int bridge-id br-int
 
-#screen_it q-agt 'cd /opt/stack/neutron && python /usr/local/bin/neutron-openvswitch-agent --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini'
+sudo ovs-vsctl --no-wait -- --may-exist add-br br-ex
+sudo ovs-vsctl --no-wait br-set-external-id br-ex bridge-id br-ex
+sudo ip addr flush dev br-ex
+sudo ip addr add 172.24.4.1/24 dev br-ex
+sudo ip link set br-ex up
 
-#screen_it q-dhcp 'cd /opt/stack/neutron && python /usr/local/bin/neutron-dhcp-agent --config-file /etc/neutron/neutron.conf --config-file=/etc/neutron/dhcp_agent.ini'
-
-#screen_it q-l3 'cd /opt/stack/neutron && python /usr/local/bin/neutron-l3-agent --config-file /etc/neutron/neutron.conf --config-file=/etc/neutron/l3_agent.ini'
-
-#screen_it q-meta 'cd /opt/stack/neutron && python /usr/local/bin/neutron-metadata-agent --config-file /etc/neutron/neutron.conf --config-file=/etc/neutron/metadata_agent.ini'
+screen_it q-svc 'cd /opt/stack/neutron && python /usr/local/bin/neutron-server --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini'
+screen_it q-agt 'cd /opt/stack/neutron && python /usr/local/bin/neutron-openvswitch-agent --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini'
+screen_it q-dhcp 'cd /opt/stack/neutron && python /usr/local/bin/neutron-dhcp-agent --config-file /etc/neutron/neutron.conf --config-file=/etc/neutron/dhcp_agent.ini'
+screen_it q-l3 'cd /opt/stack/neutron && python /usr/local/bin/neutron-l3-agent --config-file /etc/neutron/neutron.conf --config-file=/etc/neutron/l3_agent.ini'
+screen_it q-meta 'cd /opt/stack/neutron && python /usr/local/bin/neutron-metadata-agent --config-file /etc/neutron/neutron.conf --config-file=/etc/neutron/metadata_agent.ini'
 
 # Horizon
 screen_it horizon 'cd /opt/stack/horizon && sudo tail -f /var/log/apache2/horizon_error.log'

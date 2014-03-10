@@ -134,20 +134,21 @@ KEYSTONE_SERVICE_PROTOCOL=${KEYSTONE_SERVICE_PROTOCOL:-http}
 
 # Our screenrc file builder
 function screen_rc {
-    #SCREENRC=$TOP_DIR/stack-screenrc
-    #if [[ ! -e $SCREENRC ]]; then
-    #    # Name the screen session
-    #    echo "sessionname stack" > $SCREENRC
+    SCREENRC=$TOP_DIR/stack-screenrc
+    if [[ ! -e $SCREENRC ]]; then
+        # Name the screen session
+        echo "sessionname stack" > $SCREENRC
         # Set a reasonable statusbar
-    #    echo "hardstatus alwayslastline '$SCREEN_HARDSTATUS'" >> $SCREENRC
-    #    echo "screen -t stack bash" >> $SCREENRC
-    #fi
+        echo "hardstatus alwayslastline '$SCREEN_HARDSTATUS'" >> $SCREENRC
+        echo "screen -t stack bash" >> $SCREENRC
+    fi
     # If this service doesn't already exist in the screenrc file
-    #if ! grep $1 $SCREENRC 2>&1 > /dev/null; then
-    #    NL=`echo -ne '\015'`
-    #    echo "screen -t $1 bash" >> $SCREENRC
-    #    echo "stuff \"$2$NL\"" >> $SCREENRC
-    #fi
+    if ! grep $1 $SCREENRC 2>&1 > /dev/null; then
+        NL=`echo -ne '\015'`
+        echo "screen -t $1 bash" >> $SCREENRC
+        echo "stuff \"$2$NL\"" >> $SCREENRC
+    fi
+    rm $SCREENRC
 }
 
 # Our screen helper to launch a service in a hidden named screen
@@ -204,9 +205,13 @@ screen_it c-vol 'cd /opt/stack/cinder && /usr/local/bin/cinder-volume --config-f
 
 # Neutron
 #screen_it q-svc 'cd /opt/stack/neutron && python /usr/local/bin/neutron-server --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini'
+
 #screen_it q-agt 'cd /opt/stack/neutron && python /usr/local/bin/neutron-openvswitch-agent --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini'
+
 #screen_it q-dhcp 'cd /opt/stack/neutron && python /usr/local/bin/neutron-dhcp-agent --config-file /etc/neutron/neutron.conf --config-file=/etc/neutron/dhcp_agent.ini'
+
 #screen_it q-l3 'cd /opt/stack/neutron && python /usr/local/bin/neutron-l3-agent --config-file /etc/neutron/neutron.conf --config-file=/etc/neutron/l3_agent.ini'
+
 #screen_it q-meta 'cd /opt/stack/neutron && python /usr/local/bin/neutron-metadata-agent --config-file /etc/neutron/neutron.conf --config-file=/etc/neutron/metadata_agent.ini'
 
 # Horizon

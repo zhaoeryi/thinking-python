@@ -134,20 +134,20 @@ KEYSTONE_SERVICE_PROTOCOL=${KEYSTONE_SERVICE_PROTOCOL:-http}
 
 # Our screenrc file builder
 function screen_rc {
-    SCREENRC=$TOP_DIR/stack-screenrc
-    if [[ ! -e $SCREENRC ]]; then
-        # Name the screen session
-        echo "sessionname stack" > $SCREENRC
+    #SCREENRC=$TOP_DIR/stack-screenrc
+    #if [[ ! -e $SCREENRC ]]; then
+    #    # Name the screen session
+    #    echo "sessionname stack" > $SCREENRC
         # Set a reasonable statusbar
-        echo "hardstatus alwayslastline '$SCREEN_HARDSTATUS'" >> $SCREENRC
-        echo "screen -t stack bash" >> $SCREENRC
-    fi
+    #    echo "hardstatus alwayslastline '$SCREEN_HARDSTATUS'" >> $SCREENRC
+    #    echo "screen -t stack bash" >> $SCREENRC
+    #fi
     # If this service doesn't already exist in the screenrc file
-    if ! grep $1 $SCREENRC 2>&1 > /dev/null; then
-        NL=`echo -ne '\015'`
-        echo "screen -t $1 bash" >> $SCREENRC
-        echo "stuff \"$2$NL\"" >> $SCREENRC
-    fi
+    #if ! grep $1 $SCREENRC 2>&1 > /dev/null; then
+    #    NL=`echo -ne '\015'`
+    #    echo "screen -t $1 bash" >> $SCREENRC
+    #    echo "stuff \"$2$NL\"" >> $SCREENRC
+    #fi
 }
 
 # Our screen helper to launch a service in a hidden named screen

@@ -1,4 +1,6 @@
 #!/bin/bash
+mkdir -p ~/workspace/stack
+cd ~/workspace/stack
 
 # Preparation
 sudo rm devstack -rf

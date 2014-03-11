@@ -1,0 +1,20 @@
+# Import image
+glance image-create --name="cirros031" --disk-format=qcow2  --container-format=bare --is-public=true < cirros-0.3.1-x86_64-disk.img
+
+# Generate ssh key
+ssh-keygen
+cd .ssh
+nova keypair-add --pub_key id_rsa.pub mykey
+
+# Boot instance
+nova boot --flavor 1 --key_name mykey --image cirros031 testvm
+
+
+# How to Debug
+1) /nova/nova/cmd/__init__.py
+sys.path.append('/opt/eclipse/plugins/org.python.pydev_2.8.2.2013090511/pysrc/')
+
+eventlet.monkey_patch(all=False,socket=True,select=True) 
+
+2)
+import pydevd;pydevd.settrace('localhost', port=5678, stdoutToServer=True, stderrToServer=True,suspend=True)

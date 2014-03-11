@@ -194,7 +194,7 @@ screen_it n-cond 'cd /opt/stack/nova && /usr/local/bin/nova-conductor --config-f
 screen_it n-cell-region 'cd /opt/stack/nova && /usr/local/bin/nova-cells --config-file /etc/nova/nova.conf'
 screen_it n-cell-child 'cd /opt/stack/nova && /usr/local/bin/nova-cells --config-file /etc/nova/nova.conf'
 screen_it n-crt 'cd /opt/stack/nova && /usr/local/bin/nova-cert --config-file /etc/nova/nova.conf'
-screen_it n-net 'cd /opt/stack/nova && /usr/local/bin/nova-network --config-file /etc/nova/nova.conf'
+# screen_it n-net 'cd /opt/stack/nova && /usr/local/bin/nova-network --config-file /etc/nova/nova.conf'
 screen_it n-sch 'cd /opt/stack/nova && /usr/local/bin/nova-scheduler --config-file /etc/nova/nova.conf'
 screen_it n-api-meta 'cd /opt/stack/nova && /usr/local/bin/nova-api-metadata --config-file /etc/nova/nova.conf'
 screen_it n-novnc 'cd /opt/stack/nova && /usr/local/bin/nova-novncproxy --config-file /etc/nova/nova.conf --web /opt/stack/noVNC'

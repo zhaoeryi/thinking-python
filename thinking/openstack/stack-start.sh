@@ -189,7 +189,7 @@ screen_it g-api 'cd /opt/stack/glance; /usr/local/bin/glance-api --config-file=/
 
 # Nova
 screen_it n-api 'cd /opt/stack/nova && /usr/local/bin/nova-api'
-screen_it n-cpu 'cd /opt/stack/nova && sg libvirtd '\''/usr/local/bin/nova-compute --config-file /etc/nova/nova.conf'\'''
+screen_it n-cpu 'cd /opt/stack/nova && sg libvirtd '\''/usr/local/bin/nova-compute --config-file /etc/nova/nova.conf --remote_debug-host 127.0.0.1 --remote_debug-port 5678'\'''
 screen_it n-cond 'cd /opt/stack/nova && /usr/local/bin/nova-conductor --config-file /etc/nova/nova.conf'
 screen_it n-cell-region 'cd /opt/stack/nova && /usr/local/bin/nova-cells --config-file /etc/nova/nova.conf'
 screen_it n-cell-child 'cd /opt/stack/nova && /usr/local/bin/nova-cells --config-file /etc/nova/nova.conf'
@@ -226,5 +226,5 @@ screen_it q-l3 'cd /opt/stack/neutron && python /usr/local/bin/neutron-l3-agent 
 screen_it q-meta 'cd /opt/stack/neutron && python /usr/local/bin/neutron-metadata-agent --config-file /etc/neutron/neutron.conf --config-file=/etc/neutron/metadata_agent.ini'
 
 # Horizon
-screen_it horizon 'cd /opt/stack/horizon && sudo tail -f /var/log/apache2/horizon_error.log'
+# screen_it horizon 'cd /opt/stack/horizon && sudo tail -f /var/log/apache2/horizon_error.log'
 

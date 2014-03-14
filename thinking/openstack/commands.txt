@@ -11,30 +11,4 @@ nova keypair-add --pub_key id_rsa.pub mykey
 nova boot --flavor 1 --key_name mykey --image cirros031 testvm
 
 
-# How to Debug Nova-API
-1) /nova/nova/cmd/__init__.py
-sys.path.append('/opt/eclipse/plugins/org.python.pydev_2.8.2.2013090511/pysrc/')
 
-eventlet.monkey_patch(all=False,socket=True,select=True) 
-
-2)
-if you want to debug in one file, add this line to it:
-import pydevd;pydevd.settrace('localhost', port=5678, stdoutToServer=True, stderrToServer=True,suspend=True)
-
-As soon as the file has one line above, you can set more breakpoints on it directly
-
-# How to Debug Nova-Compute
-1) /opt/stack/nova/nova/service.py
-sys.path.append('/opt/eclipse/plugins/org.python.pydev_2.8.2.2013090511/pysrc/')
-
-change "from pydev import pydevd" to "import pydevd"
-
-2) /nova/nova/cmd/__init__.py
-eventlet.monkey_patch(all=False,socket=True,select=True) 
-
-3) Start nova-compute with remote debug param
-/usr/local/bin/nova-compute --config-file /etc/nova/nova.conf --remote_debug-host 127.0.0.1 --remote_debug-port 5678
-
-4) Set any breakpoints on nova-compute files directly
-
-5) Restart all services

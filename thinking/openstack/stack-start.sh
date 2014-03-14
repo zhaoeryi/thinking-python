@@ -189,8 +189,8 @@ screen_it g-api 'cd /opt/stack/glance; /usr/local/bin/glance-api --config-file=/
 
 # Nova
 screen_it n-api 'cd /opt/stack/nova && /usr/local/bin/nova-api'
-#screen_it n-cpu 'cd /opt/stack/nova && sg libvirtd '\''/usr/local/bin/nova-compute --config-file /etc/nova/nova.conf'\'''
-screen_it n-cpu 'cd /opt/stack/nova && sg libvirtd '\''/usr/local/bin/nova-compute --config-file /etc/nova/nova.conf --remote_debug-host 127.0.0.1 --remote_debug-port 5678'\'''
+screen_it n-cpu 'cd /opt/stack/nova && sg libvirtd '\''/usr/local/bin/nova-compute --config-file /etc/nova/nova.conf'\'''
+#screen_it n-cpu 'cd /opt/stack/nova && sg libvirtd '\''/usr/local/bin/nova-compute --config-file /etc/nova/nova.conf --remote_debug-host 127.0.0.1 --remote_debug-port 5678'\'''
 screen_it n-cond 'cd /opt/stack/nova && /usr/local/bin/nova-conductor --config-file /etc/nova/nova.conf'
 screen_it n-cell-region 'cd /opt/stack/nova && /usr/local/bin/nova-cells --config-file /etc/nova/nova.conf'
 screen_it n-cell-child 'cd /opt/stack/nova && /usr/local/bin/nova-cells --config-file /etc/nova/nova.conf'
@@ -223,7 +223,7 @@ sudo ip link set br-ex up
 screen_it q-svc 'cd /opt/stack/neutron && python /usr/local/bin/neutron-server --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini'
 screen_it q-agt 'cd /opt/stack/neutron && python /usr/local/bin/neutron-openvswitch-agent --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini'
 screen_it q-dhcp 'cd /opt/stack/neutron && python /usr/local/bin/neutron-dhcp-agent --config-file /etc/neutron/neutron.conf --config-file=/etc/neutron/dhcp_agent.ini'
-screen_it q-l3 'cd /opt/stack/neutron && python /usr/local/bin/neutron-l3-agent --config-file /etc/neutron/neutron.conf --config-file=/etc/neutron/l3_agent.ini'
+#screen_it q-l3 'cd /opt/stack/neutron && python /usr/local/bin/neutron-l3-agent --config-file /etc/neutron/neutron.conf --config-file=/etc/neutron/l3_agent.ini'
 screen_it q-meta 'cd /opt/stack/neutron && python /usr/local/bin/neutron-metadata-agent --config-file /etc/neutron/neutron.conf --config-file=/etc/neutron/metadata_agent.ini'
 
 # Horizon

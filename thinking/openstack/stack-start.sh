@@ -220,7 +220,7 @@ sudo ip addr flush dev br-ex
 sudo ip addr add 172.24.4.1/24 dev br-ex
 sudo ip link set br-ex up
 
-screen_it q-svc 'cd /opt/stack/neutron && python /usr/local/bin/neutron-server --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini'
+#screen_it q-svc 'cd /opt/stack/neutron && python /usr/local/bin/neutron-server --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini'
 screen_it q-agt 'cd /opt/stack/neutron && python /usr/local/bin/neutron-openvswitch-agent --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini'
 screen_it q-dhcp 'cd /opt/stack/neutron && python /usr/local/bin/neutron-dhcp-agent --config-file /etc/neutron/neutron.conf --config-file=/etc/neutron/dhcp_agent.ini'
 #screen_it q-l3 'cd /opt/stack/neutron && python /usr/local/bin/neutron-l3-agent --config-file /etc/neutron/neutron.conf --config-file=/etc/neutron/l3_agent.ini'

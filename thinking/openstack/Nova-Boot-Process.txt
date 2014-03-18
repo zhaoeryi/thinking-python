@@ -1,0 +1,13 @@
+nova/api/openstack/compute/servers.py: create()
+nova/compute/api.py: create()
+nova/conductor/api.py: build_instances()
+nova/conductor/rpcapi.py: build_instances()
+
+nova/conductor/manager.py: build_instances()
+nova/scheduler/rpcapi.py: run_instance()
+
+nova/scheduler/manager.py: run_instance()
+nova/scheduler/filter_scheduler.py: schedule_run_instance()
+nova/compute/rpcapi.py: run_instance()
+
+nova/compute/manager.py: run_instance()

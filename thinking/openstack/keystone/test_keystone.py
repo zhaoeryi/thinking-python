@@ -59,7 +59,7 @@ def json_request(host, port, method, path, body=None, additional_headers=None):
 
     return response, data
 
-class KeystoneTestCase(thinking.HackingTestCase):
+class KeystoneTestCase(thinking.ThinkingTestCase):
 
 
     def verify_uuid_token(self, user_token):

@@ -2,6 +2,7 @@
 import thinking
 import itertools
 import inspect
+from thinking.tests import base
 
 class MyIterKlass(object):
     
@@ -10,7 +11,7 @@ class MyIterKlass(object):
         for i in [0, 1, 2]:
             yield i
 
-class GeneratorTestCase(thinking.HackingTestCase):
+class GeneratorTestCase(base.ThinkingTestCase):
     def test_count_with_next(self):
         firstval = 99
         num = itertools.count(firstval)

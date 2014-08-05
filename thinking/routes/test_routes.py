@@ -1,8 +1,8 @@
-import thinking
 import webob
 import routes
 from  thinking.routes import MyRouter, MyResource
 import json
+from thinking.tests import base
 
 class ServerController(object):
     def create(self, req, body):
@@ -46,7 +46,7 @@ class VolumeController(object):
         """Detach a volume from an instance."""   
         return "VolumeController.delete"  
                        
-class ResourceMapperTestCase(thinking.HackingTestCase):
+class ResourceMapperTestCase(base.ThinkingTestCase):
     
     def setUp(self):
         """

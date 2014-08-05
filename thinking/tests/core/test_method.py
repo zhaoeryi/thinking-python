@@ -1,5 +1,5 @@
 import thinking
-
+from thinking.tests import base
 class MyObj(object):
     def member_method(self, *arg):
         print "In member_method, input value is %s" % arg
@@ -23,7 +23,7 @@ class MySubClass(MyClass):
     def static_method(*arg):
         print "in MySubClass static method, arg=", arg
                
-class MethodTestCase(thinking.ThinkingTestCase):
+class MethodTestCase(base.ThinkingTestCase):
     def test_invoke_method_byattr(self):
         obj = MyObj()
         meth = getattr(obj, "member_method")

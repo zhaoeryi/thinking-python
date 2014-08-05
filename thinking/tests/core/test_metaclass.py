@@ -1,5 +1,4 @@
-import thinking
-
+from thinking.tests import base
 # http://blog.jobbole.com/21351/
 # see nova.api.openstack.wsgi.ControllerMetaclass
 # see nova.tests.api.openstack.test_wsgi.ResourceTest:test_register_extensions
@@ -52,6 +51,6 @@ class MySubKlass(MyKlass):
     def foo(self):
         pass
        
-class MetaClassTestCase(thinking.HackingTestCase):   
+class MetaClassTestCase(base.ThinkingTestCase):   
     def test_new_instance(self):
         pass

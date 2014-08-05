@@ -1,7 +1,7 @@
 import collections
-import thinking
+from thinking.tests import base
 
-class CollectionsTestCase(thinking.ThinkingTestCase):
+class CollectionsTestCase(base.ThinkingTestCase):
     def test_deque(self):
         # double-ended queue
         DUP_MSG_CHECK_SIZE = 16
@@ -17,7 +17,7 @@ class CollectionsTestCase(thinking.ThinkingTestCase):
         for i in deque:
             print i
             
-class DictTestCase(thinking.ThinkingTestCase):
+class DictTestCase(base.ThinkingTestCase):
     def test_setdefault(self):
         key = "mykey" 
         default_value = "default value"
@@ -34,7 +34,7 @@ class DictTestCase(thinking.ThinkingTestCase):
         self.assertNotEqual(_MAPS.get(key), default_value);
         self.assertEqual(_MAPS.get(key), new_value);
         
-class ArrayTestCase(thinking.ThinkingTestCase):
+class ArrayTestCase(base.ThinkingTestCase):
     def test_append(self):
         arr = [1, 2, 3]
         arr.append("4")

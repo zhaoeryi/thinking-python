@@ -1,6 +1,6 @@
 import webob.dec
 import webob.exc
-import thinking
+from thinking.tests import base
 
 class MyRequest(webob.Request):
     @property
@@ -15,6 +15,6 @@ def my_func(req):
         raise webob.exc.HTTPForbidden
     
     
-class WsgifyTestCase(thinking.ThinkingTestCase): 
+class WsgifyTestCase(base.ThinkingTestCase): 
     def test_fake(self):
         pass   

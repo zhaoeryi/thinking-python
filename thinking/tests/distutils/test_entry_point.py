@@ -1,8 +1,8 @@
 import thinking
 import pkg_resources
+from thinking.tests import base
 
-
-class EntrypointTestCase(thinking.HackingTestCase):  
+class EntrypointTestCase(base.ThinkingTestCase):  
         
         def test_load_entry_point_with_require(self):
             __requires__ = 'testegg==0.1.0'

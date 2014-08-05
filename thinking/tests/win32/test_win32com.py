@@ -1,5 +1,6 @@
 import thinking
 import sys
+from thinking.tests import base
 
 def get_windows_network_adapters():
     # http://msdn.microsoft.com/en-us/library/windows/desktop/aa393259%28v=vs.85%29.aspx
@@ -29,7 +30,7 @@ def get_windows_network_adapters():
                                     'subnet-mask': subnet_mask})
     return network_adapters
 
-class Win32comTestCase(thinking.HackingTestCase):
+class Win32comTestCase(base.ThinkingTestCase):
     def test_platform(self):
         print 'sys.platform = %s' % sys.platform
         

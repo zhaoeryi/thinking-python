@@ -1,4 +1,5 @@
-# Copyright 2011 OpenStack Foundation
+#!/bin/bash
+# Copyright 2011 OpenStack Foundation.
 # All Rights Reserved.
 #
 #    Licensed under the Apache License, Version 2.0 (the "License"); you may
@@ -13,7 +14,6 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-import gettext
-
-
-gettext.install('thinking', unicode=1)
+TOOLS=`dirname $0`
+VENV=$TOOLS/../.venv
+source $VENV/bin/activate && "$@"

@@ -1,10 +1,10 @@
-import thinking
 import sys
+from thinking.tests import base
 
 if sys.platform == 'win32':
     import wmi
     
-class WMIcomTestCase(thinking.HackingTestCase):
+class WMIcomTestCase(base.ThinkingTestCase):
     
     def setUp(self):
         if sys.platform == 'win32':

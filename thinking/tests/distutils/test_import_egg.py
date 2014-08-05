@@ -1,8 +1,7 @@
-import _hacking
 from _test import init_func
 from _test import test_entry
-
-class ImportEggTestCase(_hacking.HackingTestCase):  
+from thinking.tests import base
+class ImportEggTestCase(base.ThinkingTestCase):  
         def test_entry_func(self):
             test_entry.entry_func()
             

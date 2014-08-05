@@ -2,7 +2,7 @@
 
 import logging
 import thinking
-
+from thinking.tests import base
 # http://blog.csdn.net/beckel/article/details/3945147
 # function with decorator 
 '''
@@ -87,7 +87,7 @@ class DecoratorClassWithArguments(object):
             print "After f(*args)"
         return wrapped_f
             
-class DecoratorTestCase(thinking.ThinkingTestCase):
+class DecoratorTestCase(base.ThinkingTestCase):
     def test_DecoratorFunctionWithArguments(self):
        
         @decoratorFunctionWithArguments("myarg", mykey='myvalue')

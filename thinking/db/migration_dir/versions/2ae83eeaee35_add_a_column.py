@@ -11,6 +11,7 @@ revision = '2ae83eeaee35'
 down_revision = 'b4032e2ad23'
 
 from alembic import op
+
 import sqlalchemy as sa
 
 

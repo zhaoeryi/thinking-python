@@ -5,8 +5,9 @@ multiple threads, and graceful code reloading, see:
 http://pypi.python.org/pypi/Spawning/
 """
 
-import eventlet
 from eventlet import wsgi
+import eventlet
+
 
 def hello_world(env, start_response):
     if env['PATH_INFO'] != '/':

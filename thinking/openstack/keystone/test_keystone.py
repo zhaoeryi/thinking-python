@@ -1,9 +1,13 @@
-import thinking
+from __future__ import print_function
+
 import httplib
 import json
-import urllib
-from oslo.config import cfg
 import logging
+import urllib
+
+from oslo.config import cfg
+import thinking
+
 
 CONF = cfg.CONF
 _opts = [
@@ -115,10 +119,10 @@ class KeystoneTestCase(thinking.ThinkingTestCase):
         resonse, data = json_request(CONF.auth_host, CONF.auth_port, "POST", "/v2.0/tokens", body=body)
         
         # pretty print
-        print 'data=', json.dumps(data, sort_keys=True, indent=4)
+        print('data=', json.dumps(data, sort_keys=True, indent=4))
         
         apitoken = data['access']['token']['id']
 
-        print "Your token is: %s" % apitoken
+        print("Your token is: %s" % apitoken)
 
         self.verify_uuid_token(apitoken)

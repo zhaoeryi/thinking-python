@@ -1,11 +1,14 @@
+from __future__ import print_function
+
 import testtools
+
 
 class ThinkingTestCase(testtools.TestCase):
 
     def setUp(self):
-        print "\n"
+        print("\n")
         # print "====================", self.id(), "===================="
-        print "==============================", self._testMethodName, "=============================="
+        print("==============================", self._testMethodName, "==============================")
         """Run before each test method to initialize test environment."""
         super(ThinkingTestCase, self).setUp()
 

@@ -1,11 +1,15 @@
-from webob import Request
-import thinking
+from __future__ import print_function
+
+import json
+import logging
 import routes.middleware
+from webob import Request
 import webob.dec
 import webob.exc
-import logging
-import json
-            
+
+import thinking
+
+
 LOG = logging.getLogger("hacking")
 
 class MyResource():
@@ -83,7 +87,7 @@ class MyResource():
         # content type
         action_args = self.get_action_args(request.environ)
         action = action_args.pop('action', None)
-        print "action= %s, action_args=%s" % (action, str(action_args))
+        print("action= %s, action_args=%s" % (action, str(action_args)))
         if request.body:
             body = json.loads(request.body)
         else:

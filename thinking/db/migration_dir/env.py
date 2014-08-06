@@ -1,7 +1,12 @@
 from __future__ import with_statement
+
 from alembic import context
-from sqlalchemy import engine_from_config, pool
 from logging.config import fileConfig
+from sqlalchemy import engine_from_config, pool
+import sys
+
+from thinking.db.mymodel import Base
+
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -15,18 +20,17 @@ fileConfig(config.config_file_name)
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-#target_metadata = None
+# target_metadata = None
 
 # Let system know our mode path, import it, use metadata from it.
-import sys
 sys.path.append('/home/zhyizhyi/workspace/stack/thinking-python/')
-from thinking.db.mymodel import Base
 target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
+
 
 def run_migrations_offline():
     """Run migrations in 'offline' mode.
@@ -74,4 +78,3 @@ if context.is_offline_mode():
     run_migrations_offline()
 else:
     run_migrations_online()
-

@@ -1,5 +1,6 @@
-import eventlet
 from eventlet import wsgi
+import eventlet
+
 
 def my_app(environ, start_response):
     start_response('200 OK', [('Content-Type', 'text/plain')])

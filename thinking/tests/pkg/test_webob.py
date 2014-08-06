@@ -1,6 +1,8 @@
 import webob.dec
 import webob.exc
+
 from thinking.tests import base
+
 
 class MyRequest(webob.Request):
     @property

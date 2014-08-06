@@ -1,6 +1,9 @@
-import thinking
+from __future__ import print_function
+
 import sys
+
 from thinking.tests import base
+
 
 def get_windows_network_adapters():
     # http://msdn.microsoft.com/en-us/library/windows/desktop/aa393259%28v=vs.85%29.aspx
@@ -32,10 +35,10 @@ def get_windows_network_adapters():
 
 class Win32comTestCase(base.ThinkingTestCase):
     def test_platform(self):
-        print 'sys.platform = %s' % sys.platform
+        print('sys.platform = %s' % sys.platform)
         
     def test_get_windows_network_adapters(self):
         if sys.platform == 'win32':
             adapters = get_windows_network_adapters()
             for ada in adapters:
-                print ada
+                print(ada)

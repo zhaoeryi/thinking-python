@@ -1,8 +1,10 @@
-import webob
-import routes
-from  thinking.routes import MyRouter, MyResource
 import json
+import routes
+import webob
+
+from thinking.routes import MyRouter, MyResource
 from thinking.tests import base
+
 
 class ServerController(object):
     def create(self, req, body):

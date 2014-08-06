@@ -1,9 +1,13 @@
+from __future__ import print_function
+
 import sys
+
 from thinking.tests import base
+
 
 if sys.platform == 'win32':
     import wmi
-    
+
 class WMIcomTestCase(base.ThinkingTestCase):
     
     def setUp(self):
@@ -28,5 +32,5 @@ class WMIcomTestCase(base.ThinkingTestCase):
     def test_get_cpus_info(self):
         cpus_list = self._get_cpus_info()
         for cpu_info in cpus_list:
-            print cpu_info
+            print(cpu_info)
         

@@ -1,6 +1,8 @@
-import thinking
 import pkg_resources
+
+import thinking
 from thinking.tests import base
+
 
 class EntrypointTestCase(base.ThinkingTestCase):  
         

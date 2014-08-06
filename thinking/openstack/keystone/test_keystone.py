@@ -1,8 +1,8 @@
 from __future__ import print_function
-
 import httplib
 import json
 import logging
+from thinking.tests import base
 import urllib
 
 from oslo.config import cfg
@@ -16,15 +16,17 @@ _opts = [
     cfg.StrOpt('os_user'),
     cfg.StrOpt('os_password'),
     cfg.StrOpt('os_tenant_name'),
-    cfg.StrOpt('admin_token'),
-    ]
+    cfg.StrOpt('admin_token')]
+
 thinking.CONF.register_opts(_opts)
 
 LOG = logging.getLogger("hacking")
 
+
 def safe_quote(s):
     """URL-encode strings that are not already URL-encoded."""
     return urllib.quote(s) if s == urllib.unquote(s) else s
+
 
 def json_request(host, port, method, path, body=None, additional_headers=None):
     """HTTP request helper used to make json requests.
@@ -43,7 +45,7 @@ def json_request(host, port, method, path, body=None, additional_headers=None):
                 'Accept': 'application/json',
             },
     }
-    
+
     if additional_headers:
         kwargs['headers'].update(additional_headers)
 
@@ -63,8 +65,8 @@ def json_request(host, port, method, path, body=None, additional_headers=None):
 
     return response, data
 
-class KeystoneTestCase(thinking.ThinkingTestCase):
 
+class KeystoneTestCase(base.ThinkingTestCase):
 
     def verify_uuid_token(self, user_token):
         """Authenticate user token with keystone.
@@ -78,7 +80,7 @@ class KeystoneTestCase(thinking.ThinkingTestCase):
         :raise ServiceError if unable to authenticate token
 
         """
-        
+
         # verify user token by admin token
         headers = {'X-Auth-Token': CONF.admin_token}
         response, data = json_request(CONF.auth_host,
@@ -96,14 +98,12 @@ class KeystoneTestCase(thinking.ThinkingTestCase):
             LOG.info(
                 'Keystone rejected admin token %s, resetting', headers)
         else:
-            LOG.error('Bad response code while validating token: %s' % 
-                           response.status)
-        
-        LOG.warn("Invalid user token: %s. Keystone response: %s.",
-                          user_token, data)
-        
+            LOG.error('Bad response code while validating token: %s' % response.status)
+
+        LOG.warn("Invalid user token: %s. Keystone response: %s.", user_token, data)
+
         raise Exception()
-        
+
     def test_get_user_token(self):
         params = {
             'auth': {
@@ -114,13 +114,13 @@ class KeystoneTestCase(thinking.ThinkingTestCase):
                 'tenantName': CONF.os_tenant_name,
             }
         }
-        
+
         body = json.dumps(params)
         resonse, data = json_request(CONF.auth_host, CONF.auth_port, "POST", "/v2.0/tokens", body=body)
-        
+
         # pretty print
         print('data=', json.dumps(data, sort_keys=True, indent=4))
-        
+
         apitoken = data['access']['token']['id']
 
         print("Your token is: %s" % apitoken)

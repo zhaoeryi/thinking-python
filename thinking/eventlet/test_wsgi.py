@@ -4,9 +4,8 @@ multiple threads, and graceful code reloading, see:
 
 http://pypi.python.org/pypi/Spawning/
 """
-
-from eventlet import wsgi
 import eventlet
+from eventlet import wsgi
 
 
 def hello_world(env, start_response):
@@ -15,5 +14,5 @@ def hello_world(env, start_response):
         return ['Not Found\r\n']
     start_response('200 OK', [('Content-Type', 'text/plain')])
     return ['Hacking, World!\r\n']
-        
+
 wsgi.server(eventlet.listen(('', 8080)), hello_world)

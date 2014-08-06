@@ -1,7 +1,4 @@
-import kombu
 import kombu.connection
-import kombu.entity
-import kombu.messaging
 import sys
 import time
 
@@ -10,10 +7,10 @@ import thinking
 
 LOG = thinking.logger
 
+
 class Connection(object):
     """Connection object."""
-    
-    
+
     def __init__(self):
         self.consumers = []
         self.consumer_thread = None
@@ -29,14 +26,13 @@ class Connection(object):
                   'port': 5672,
                   'userid': 'guest',
                   'password': 'guest',
-                  'virtual_host': '/'
-        }
-        
+                  'virtual_host': '/'}
+
         params_list.append(params)
         self.params_list = params_list
 
         self.connection = None
-        self.reconnect()    
+        self.reconnect()
 
     def reconnect(self):
         """Handles reconnecting and re-establishing queues.
@@ -90,7 +86,7 @@ class Connection(object):
                         'unreachable: %(err_str)s. Trying again in '
                         '%(sleep_time)d seconds.') % log_info)
             time.sleep(sleep_time)
-            
+
     def _connect(self, params):
         """Connect to rabbit.  Re-establish any queues that may have
         been declared before if we are reconnecting.  Exceptions should
@@ -118,7 +114,5 @@ class Connection(object):
             self.channel._new_queue('ae.undeliver')
         for consumer in self.consumers:
             consumer.reconnect(self.channel)
-        LOG.info(('Connected to AMQP server on %(hostname)s:%(port)d') % 
+        LOG.info(('Connected to AMQP server on %(hostname)s:%(port)d') %
                  params)
-        
-  

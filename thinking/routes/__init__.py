@@ -3,14 +3,12 @@ from __future__ import print_function
 import json
 import logging
 import routes.middleware
-from webob import Request
+import webob
 import webob.dec
 import webob.exc
 
-import thinking
+LOG = logging.getLogger(__name__)
 
-
-LOG = logging.getLogger("hacking")
 
 class MyResource():
     def __init__(self, controller):
@@ -29,7 +27,7 @@ class MyResource():
                 raise
         else:
             return meth
-        
+
     def get_action_args(self, request_environment):
         """Parse dictionary created by routes library."""
 
@@ -58,7 +56,7 @@ class MyResource():
     def dispatch(self, method, request, action_args):
         """Dispatch a call to the action-specific method."""
         return method(req=request, **action_args)
-    
+
     def _process_stack(self, request, action, action_args,
                        content_type, body):
         """Implement the processing stack."""
@@ -76,10 +74,10 @@ class MyResource():
         if body:
             contents = {'body': body}
             action_args.update(contents)
-        
+
         response = self.dispatch(meth, request, action_args)
         return response
-              
+
     @webob.dec.wsgify(RequestClass=webob.Request)
     def __call__(self, request):
         """WSGI method that controls (de)serialization and method dispatch."""
@@ -99,7 +97,8 @@ class MyResource():
         #            decorator.
         return self._process_stack(request, action, action_args,
                                request.content_type, body)
-        
+
+
 # app
 class MyRouter():
 
@@ -133,7 +132,7 @@ class MyRouter():
         self._router = routes.middleware.RoutesMiddleware(self._dispatch,
                                                           self.map)
 
-    @webob.dec.wsgify(RequestClass=Request)
+    @webob.dec.wsgify(RequestClass=webob.Request)
     def __call__(self, req):
         """Route the incoming request to a controller based on self.map.
 
@@ -143,7 +142,7 @@ class MyRouter():
         return self._router
 
     @staticmethod
-    @webob.dec.wsgify(RequestClass=Request)
+    @webob.dec.wsgify(RequestClass=webob.Request)
     def _dispatch(req):
         """Dispatch the request to the appropriate controller.
 
@@ -157,6 +156,3 @@ class MyRouter():
             return webob.exc.HTTPNotFound()
         app = match['controller']
         return app
-
-
-    

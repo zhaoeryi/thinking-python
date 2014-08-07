@@ -35,3 +35,7 @@ nosetests.xml
 .project
 .pydevproject
 *.log
+.settings/
+.testrepository/
+.venv/
+

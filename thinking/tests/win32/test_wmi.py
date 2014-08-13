@@ -32,5 +32,3 @@ class WMIcomTestCase(base.ThinkingTestCase):
 
     def test_get_cpus_info(self):
         cpus_list = self._get_cpus_info()
-        for cpu_info in cpus_list:
-            print(cpu_info)

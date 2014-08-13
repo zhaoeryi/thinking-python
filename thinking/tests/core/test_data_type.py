@@ -18,9 +18,6 @@ class CollectionsTestCase(base.ThinkingTestCase):
         deque.append(4)
         self.assertEqual(deque.pop(), 4)
 
-        for i in deque:
-            print(i)
-
 
 class DictTestCase(base.ThinkingTestCase):
     def test_setdefault(self):
@@ -56,9 +53,7 @@ class ArrayTestCase(base.ThinkingTestCase):
         arr = [0, 1, 2, 3, 4, 5]
         newarr = ['a', 'b', 'c', 'd', 'e']
         arr[1:1] = newarr
-        print(arr)
 
     def test_enumerate(self):
         new_filter = ['a', 'b', 'c']
         new_filter = [s for s in new_filter if 'b' not in s.strip()]
-        print(new_filter)

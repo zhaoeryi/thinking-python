@@ -48,7 +48,6 @@ class KombuTestCase(base.ThinkingTestCase):
         def _callback(raw_message):
             message = self._hack_channel.message_to_python(raw_message)
             try:
-                print("Consume message by queue: ", message.payload)
             except Exception:
                 logger.exception(_("Failed to process message... skipping it."))
             finally:
@@ -60,7 +59,6 @@ class KombuTestCase(base.ThinkingTestCase):
         def _callback(raw_message):
             message = self._hack_channel.message_to_python(raw_message)
             try:
-                print("Consume message by consumer: ", message.payload)
             except Exception:
                 logger.exception(_("Failed to process message... skipping it."))
             finally:
@@ -77,7 +75,6 @@ class KombuTestCase(base.ThinkingTestCase):
         # producer
 
         msg_content = str(time.clock())
-        print ("Publish message: ", msg_content)
         producer = kombu.messaging.Producer(exchange=self._hack_topic_exchange, channel=self._hack_channel, routing_key='hack_routing_key')
         producer.publish(msg_content)
 

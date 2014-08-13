@@ -85,7 +85,6 @@ class MyResource():
         # content type
         action_args = self.get_action_args(request.environ)
         action = action_args.pop('action', None)
-        print("action= %s, action_args=%s" % (action, str(action_args)))
         if request.body:
             body = json.loads(request.body)
         else:

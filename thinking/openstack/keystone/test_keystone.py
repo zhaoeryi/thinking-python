@@ -119,10 +119,8 @@ class KeystoneTestCase(base.ThinkingTestCase):
         resonse, data = json_request(CONF.auth_host, CONF.auth_port, "POST", "/v2.0/tokens", body=body)
 
         # pretty print
-        print('data=', json.dumps(data, sort_keys=True, indent=4))
 
         apitoken = data['access']['token']['id']
 
-        print("Your token is: %s" % apitoken)
 
         self.verify_uuid_token(apitoken)

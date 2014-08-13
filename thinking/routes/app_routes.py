@@ -16,12 +16,9 @@ logger = thinking.logger
 # app
 class action_contr():
     def __init__(self):
-        print("in action_contr.init")
         pass
 
     def __call__(self, environ, start_response):
-        print("in action_contr._call_")
-        print(environ["QUERY_STRING"])
         start_response('200 OK', [('Content-Type', 'text/plain')])
         return ['Hello World!']
 
@@ -33,7 +30,6 @@ class api_router():
         pass
 
     def __call__(self, environ, start_response):
-        print("in api_router.__call__ ")
         _mapper = routes.Mapper()
 
         # match http://127.0.0.1:8080/hacking/test?a=b
@@ -41,12 +37,10 @@ class api_router():
         _router = routes.middleware.RoutesMiddleware(self._dispatch, _mapper)
 
         response = _router(environ, start_response)
-        print('response=', response)
         return response
 
     @classmethod
     def factory(cls, global_conf, **kwargs):
-        print("in api_router.factory", kwargs)
         return cls()
 
     # _dispatch will return WSGI application, webob.dec.wsgify will invoke it, also return the decorate the response.
@@ -60,7 +54,6 @@ class api_router():
         or the routed WSGI app's response.
 
         """
-        print('in api_router._dispatch')
         match = req.environ['wsgiorg.routing_args'][1]
         if not match:
             return webob.exc.HTTPNotFound()

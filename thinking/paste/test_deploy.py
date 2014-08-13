@@ -12,14 +12,11 @@ class test_filter1():
         pass
 
     def __call__(self, environ, start_response):
-        print("test filter1 pre is called.")
         ret = self.app(environ, start_response)
-        print("test filter1 post is called.")
         return ret
 
     @classmethod
     def factory(cls, global_conf, **kwargs):
-        print("in test_filter1.factory", global_conf, kwargs)
         return cls
 
 
@@ -31,14 +28,11 @@ class test_filter2():
         pass
 
     def __call__(self, environ, start_response):
-        print("test filter2 pre is called.")
         ret = self.app(environ, start_response)
-        print("test filter2 post is called.")
         return ret
 
     @classmethod
     def factory(cls, global_conf, **kwargs):
-        print("in test_filter2.factory", global_conf, kwargs)
         return cls
 
 
@@ -49,13 +43,11 @@ class test_app1():
         pass
 
     def __call__(self, environ, start_response):
-        print("test app1 is called.")
         start_response("200 OK", [("Content-type", "text/plain")])
         return ["test app 1", ]
 
     @classmethod
     def factory(cls, global_conf, **kwargs):
-        print("in test_app1.factory", global_conf, kwargs)
         return cls()
 
 
@@ -66,13 +58,11 @@ class test_app2():
         pass
 
     def __call__(self, environ, start_response):
-        print("test app2 is called.")
         start_response("200 OK", [("Content-type", "text/plain")])
         return ["test app 2", ]
 
     @classmethod
     def factory(cls, global_conf, **kwargs):
-        print("in test_app2.factory", global_conf, kwargs)
         return cls()
 
 if __name__ == '__main__':

@@ -2,12 +2,12 @@ import eventlet
 from eventlet import wsgi
 
 
-def my_app(environ, start_response):
+def app(environ, start_response):
     start_response('200 OK', [('Content-Type', 'text/plain')])
-    return ["hello myapp"]
+    return ["hello world"]
 
 
-class my_middleware(object):
+class middleware(object):
 
     def __init__(self, app, encoding='utf8'):
         self.app = app
@@ -18,7 +18,7 @@ class my_middleware(object):
         return content
 
 # We warp the original WSGI application with middleware
-my_site = my_middleware(my_app)
+site = middleware(app)
 
 # http://127.0.0.1:8080
-wsgi.server(eventlet.listen(('', 8080)), my_site)
+wsgi.server(eventlet.listen(('', 8080)), site)

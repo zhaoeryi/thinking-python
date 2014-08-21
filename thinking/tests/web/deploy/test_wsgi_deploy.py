@@ -74,7 +74,7 @@ class test_wsgi_app2():
 class WsgiDeployTestCase(base.ThinkingTestCase):
 
     def _loadapp(self):
-        config_path = "test_wsgi_deploy.ini"
+        config_path = os.path.join(os.path.dirname(__file__), 'test_wsgi_deploy.ini')
         composite_name = "test_wsgi_comp"
         wsgi_site = deploy.loadapp("config:%s" % os.path.abspath(config_path), composite_name)
         return wsgi_site

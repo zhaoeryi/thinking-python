@@ -5,6 +5,7 @@ from __future__ import print_function
 import kombu
 import thinking
 import time
+import testtools
 
 from thinking.tests import base
 
@@ -48,6 +49,7 @@ class KombuTestCase(base.ThinkingTestCase):
         def _callback(raw_message):
             message = self._hack_channel.message_to_python(raw_message)
             try:
+                print()
             except Exception:
                 logger.exception(_("Failed to process message... skipping it."))
             finally:
@@ -59,6 +61,7 @@ class KombuTestCase(base.ThinkingTestCase):
         def _callback(raw_message):
             message = self._hack_channel.message_to_python(raw_message)
             try:
+                print()
             except Exception:
                 logger.exception(_("Failed to process message... skipping it."))
             finally:

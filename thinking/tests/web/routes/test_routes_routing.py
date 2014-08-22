@@ -6,7 +6,8 @@ from routes import Mapper
 from routes.middleware import RoutesMiddleware
 import routes
 import httplib2
-from thinking.web import wsgi_server
+from paste import deploy
+import os 
 
 class MyController(object):
     def getlist(self, mykey):
@@ -34,8 +35,8 @@ class MyResource(object):
         result = controller_meth(**action_args)
         
         start_response('200 OK', [('Content-Type', 'text/plain')])
-        return (result)
-        
+        #return [result]
+        return [1234]
         
 class MyRouter(object):
     def __init__(self):
@@ -54,6 +55,10 @@ class MyRouter(object):
                         conditions={"method": ['GET']})
         self._router = routes.middleware.RoutesMiddleware(self._dispatch, mapper)
 
+    @classmethod
+    def factory(cls, global_config, **local_config):
+        return cls()
+    
     def __call__(self, environ, start_response):
         """Route the incoming request to a controller based on self.map.
 
@@ -79,26 +84,26 @@ class MyRouter(object):
               
 class MiddleWareTestCase(base.ThinkingTestCase):
     
+    def _loadapp(self):
+        config_path = os.path.join(os.path.dirname(__file__), 'test_routes_routing.ini')
+        composite_name = "test_wsgi_comp"
+        wsgi_site = deploy.loadapp("config:%s" % os.path.abspath(config_path), composite_name)
+        return wsgi_site
+
+    def test_hello_world(self):
+        wsgi_site = self._loadapp()
+        resp = webob.Request.blank('/').get_response(wsgi_site)
+
+        print("resp=%s" % (resp))
+
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.body, "app1,filter2,filter1")
+        
     def test_middleware_routing(self):
 
         # Build router
         router = MyRouter()
         
-        import eventlet
-        eventlet.monkey_patch(os=False)
-
-        server = wsgi_server.WsgiServer("test_hello_world", app=MyRouter(),
-                                  host="127.0.0.1", port=8080)
-        server.start()
-        client = httplib2.Http()
-        resp, body = client.request(
-            "http://127.0.0.1:8080/dummies", "get", headers=None, body=None)
-        print("resp=%s, body=%s" % (resp, body))
-
-        self.assertEqual(resp.status, 200)
-        self.assertEqual(body, "hello world!")
-
-        server.stop()
-        
         # send request
-        self.assertEqual(resp.body, "getlist(), mykey=myvalue")
+        resp = webob.Request.blank('/dummies').get_response(router)
+        self.assertEqual(resp.status_code, 200)

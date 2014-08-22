@@ -1,24 +1,24 @@
 from __future__ import print_function
 from thinking.tests import base
-import webob
-from thinking.web.dummy_controller import DummyController
 from routes import Mapper
-from routes.middleware import RoutesMiddleware
-import routes
-import httplib2
-from paste import deploy
-import os 
+import webob.dec
+import webob.exc
+import routes.middleware
 
 class MyController(object):
     def getlist(self, mykey):
+        print("step 4: MyController's getlist(self, mykey) is invoked")
         return "getlist(), mykey=" + mykey
 
-class MyResource(object):
+class MyApplication(object):
+    """Test application to call from router."""
 
     def __init__(self, controller):
         self._controller = controller
-
+        
     def __call__(self, environ, start_response):
+        print("step 3: MyApplication is invoked")
+        
         action_args = environ['wsgiorg.routing_args'][1].copy()
         try:
             del action_args['controller']
@@ -31,44 +31,45 @@ class MyResource(object):
             pass
         
         action = action_args.pop('action', None)
-        controller_meth = getattr(self._controller, action)
-        result = controller_meth(**action_args)
+        controller_method = getattr(self._controller, action)
+        result = controller_method(**action_args)
         
         start_response('200 OK', [('Content-Type', 'text/plain')])
-        #return [result]
-        return [1234]
-        
+        return [result]
+
 class MyRouter(object):
+    """Test router."""
+
     def __init__(self):
-        # Build mapper
-        route_name = "MyRouter"
+        route_name = "dummy_route"
         route_path = "/dummies"
         
-        my_controller = MyController()
-        my_resource = MyResource(my_controller) 
+        my_application = MyApplication(MyController()) 
         
-        mapper = Mapper()
-        mapper.connect(route_name, route_path,
-                        controller=my_resource,
+        self.mapper = Mapper()
+        self.mapper.connect(route_name, route_path,
+                        controller=my_application,
                         action="getlist",
                         mykey="myvalue",
                         conditions={"method": ['GET']})
-        self._router = routes.middleware.RoutesMiddleware(self._dispatch, mapper)
+        
+        
+        self._router = routes.middleware.RoutesMiddleware(self._dispatch,
+                                                          self.mapper)
 
-    @classmethod
-    def factory(cls, global_config, **local_config):
-        return cls()
-    
-    def __call__(self, environ, start_response):
+    @webob.dec.wsgify(RequestClass=webob.Request)
+    def __call__(self, req):
         """Route the incoming request to a controller based on self.map.
 
         If no match, return a 404.
 
         """
+        print("step 1: MyRouter is invoked")
         return self._router
 
     @staticmethod
-    def _dispatch(environ, start_response):
+    @webob.dec.wsgify(RequestClass=webob.Request)
+    def _dispatch(req):
         """Dispatch the request to the appropriate controller.
 
         Called by self._router after matching the incoming request to a route
@@ -76,34 +77,18 @@ class MyRouter(object):
         or the routed WSGI app's response.
 
         """
-        match_dict = environ['wsgiorg.routing_args'][1]
+        print("step 2: RoutesMiddleware is invoked, calling our _dispatch back")
+        
+        match_dict = req.environ['wsgiorg.routing_args'][1]
         if not match_dict:
             return webob.exc.HTTPNotFound()
         app = match_dict['controller']
         return app
-              
-class MiddleWareTestCase(base.ThinkingTestCase):
-    
-    def _loadapp(self):
-        config_path = os.path.join(os.path.dirname(__file__), 'test_routes_routing.ini')
-        composite_name = "test_wsgi_comp"
-        wsgi_site = deploy.loadapp("config:%s" % os.path.abspath(config_path), composite_name)
-        return wsgi_site
-
-    def test_hello_world(self):
-        wsgi_site = self._loadapp()
-        resp = webob.Request.blank('/').get_response(wsgi_site)
-
-        print("resp=%s" % (resp))
-
-        self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.body, "app1,filter2,filter1")
         
-    def test_middleware_routing(self):
+class RoutingTestCase(base.ThinkingTestCase):
 
-        # Build router
+    def test_router(self):
         router = MyRouter()
-        
-        # send request
-        resp = webob.Request.blank('/dummies').get_response(router)
-        self.assertEqual(resp.status_code, 200)
+        result = webob.Request.blank('/dummies').get_response(router)
+        self.assertEqual(result.body, "getlist(), mykey=myvalue")
+

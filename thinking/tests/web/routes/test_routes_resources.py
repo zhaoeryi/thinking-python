@@ -99,15 +99,13 @@ class ResourcesTestCase(base.ThinkingTestCase):
         match_dict = mapper.match("/servers/123/ips/456.mp3", environ)
         self.assertDictEqual(match_dict, {'action': u'show', 'server_id': u'123', 'controller': u'ips', 'id': u'456', 'format': u'mp3'})
         
-        print(match_dict)
-        
     def test_resources_basic(self):
         member_name = "message" 
         collection_name = "messages"
 
         mapper = Mapper()
         mapper.resource(member_name, collection_name)
-        
+        print(mapper)
         '''
         This establishes the following convention:
         GET    /messages        => messages.index()    => url("messages")

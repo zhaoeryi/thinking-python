@@ -6,7 +6,7 @@ class DummyMethod(object):
         self.name = name
 
     def __call__(self, *args, **kwargs):
-        print("method '%s' is invokded" % self.name)
+        print("method '%s' is invokded, args=%s, kwargs=%s" % (self.name, args, kwargs))
         return self.name + "()"
 
 

@@ -1,5 +1,6 @@
 from __future__ import print_function
 import httplib2
+import socket
 import webob
 import webtest
 from thinking.tests import base
@@ -50,14 +51,26 @@ class WsgiAppTestCase(base.ThinkingTestCase):
 
         server.stop()
 
-    def test_hello_world_with_server111(self):
+    def test_hello_world_with_eventlet(self):
         import eventlet
         eventlet.monkey_patch(os=False)
 
-        socket = eventlet.listen("127.0.0.1","8080")
+        bind_addr = ("127.0.0.1","8080")
+        try:
+            info = socket.getaddrinfo(bind_addr[0],
+                                      bind_addr[1],
+                                      socket.AF_UNSPEC,
+                                      socket.SOCK_STREAM)[0]
+            family = info[0]
+            bind_addr = info[-1]
+        except Exception:
+            family = socket.AF_INET
+
+        sock = eventlet.listen(bind_addr, family)
+            
         wsgi_kwargs = {
             'func': eventlet.wsgi.server,
-            'sock': socket,
+            'sock': sock,
             'site': hello_world,
             'protocol': eventlet.wsgi.HttpProtocol,
             'debug': False

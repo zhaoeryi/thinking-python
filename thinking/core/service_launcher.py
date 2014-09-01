@@ -25,7 +25,7 @@ def _thread_done(gt, *args, **kwargs):
     Calls the :class:`ThreadGroup` to notify if.
 
     """
-    print("Thread: GreenThread is done")
+    print("+++++++++Thread:_thread_done() thread is done")
     kwargs['group'].thread_done(kwargs['thread'])
 
 
@@ -42,7 +42,10 @@ class Thread(object):
         self.thread.kill()
 
     def wait(self):
-        return self.thread.wait()
+        print("+++++++++Thread:wait() entering")
+        result = self.thread.wait()
+        print("+++++++++Thread:wait() leaving")
+        return result
 
     def link(self, func, *args, **kwargs):
         self.thread.link(func, *args, **kwargs)
@@ -69,6 +72,7 @@ class ThreadGroup(object):
         self.threads.remove(thread)
 
     def stop(self):
+        print("+++++++++ThreadGroup:stop() entering")
         current = threading.current_thread()
 
         # Iterate over a copy of self.threads so thread_done doesn't
@@ -81,8 +85,11 @@ class ThreadGroup(object):
                 x.stop()
             except Exception as ex:
                 print(ex)
+        
+        print("+++++++++ThreadGroup:stop() leaving")
 
     def wait(self):
+        print("+++++++++ThreadGroup:wait() entering")
         current = threading.current_thread()
 
         # Iterate over a copy of self.threads so thread_done doesn't
@@ -96,6 +103,8 @@ class ThreadGroup(object):
                 pass
             except Exception as ex:
                 print(ex)
+                
+        print("+++++++++ThreadGroup:wait() leaving")
 
 class Service(object):
     """Service object for binaries running on hosts."""
@@ -114,14 +123,19 @@ class Service(object):
         pass
 
     def stop(self):
+        print("++++++Service:stop() entering")
         self.tg.stop()
         self.tg.wait()
         # Signal that service cleanup is done:
         if not self._done.ready():
             self._done.send()
+            
+        print("++++++Service:stop() leaving")
 
     def wait(self):
+        print("++++++Service:wait() entering")
         self._done.wait()
+        print("++++++Service:wait() leaving")
 
 class Services(object):
 
@@ -131,10 +145,13 @@ class Services(object):
         self.done = event.Event()
 
     def add(self, service):
+        print("+++ServiceGroup:add() entering")
         self.services.append(service)
         self.tg.add_thread(self.run_service, service, self.done)
+        print("+++ServiceGroup:add() leaving")
 
     def stop(self):
+        print("+++ServiceGroup:stop() entering")
         # wait for graceful shutdown of services:
         for service in self.services:
             service.stop()
@@ -143,14 +160,17 @@ class Services(object):
         # Each service has performed cleanup, now signal that the run_service
         # wrapper threads can now die:
         if not self.done.ready():
-            print("Services: send flag")
+            print("+++ServiceGroup:stop() send flag")
             self.done.send()
 
         # reap threads:
         self.tg.stop()
+        print("+++ServiceGroup:stop() leaving")
 
     def wait(self):
+        print("+++ServiceGroup:wait() entering")
         self.tg.wait()
+        print("+++ServiceGroup:wait() leaving")
 
     def restart(self):
         self.stop()
@@ -168,10 +188,14 @@ class Services(object):
         :returns: None
 
         """
+        print("+++ServiceGroup:run_service() entering")
+        
         service.start()
-        print("Services: before wait on flag")
+        print("+++ServiceGroup:run_service(): before wait on done flag")
         done.wait()
-        print("Services: after wait on flag")
+        print("+++ServiceGroup:run_service(): after wait on done flag")
+        
+        print("+++ServiceGroup:run_service() leaving")
 
 def _sighup_supported():
     return hasattr(signal, 'SIGHUP')
@@ -302,6 +326,8 @@ if __name__ == '__main__':
         def start(self):
             print("hello world")
 
+    eventlet.monkey_patch(os=False)
+    
     service = MyService()
     launcher = ServiceLauncher()
     launcher.launch_service(service)

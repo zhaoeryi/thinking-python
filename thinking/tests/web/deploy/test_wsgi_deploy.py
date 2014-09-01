@@ -1,10 +1,12 @@
 from __future__ import print_function
 import httplib2
 import webob
+import webtest
 from thinking.tests import base
 from thinking.web import wsgi_server
 import os
 from paste import deploy
+
 # from wsgiref import simple_server
 
 
@@ -79,7 +81,7 @@ class WsgiDeployTestCase(base.ThinkingTestCase):
         wsgi_site = deploy.loadapp("config:%s" % os.path.abspath(config_path), composite_name)
         return wsgi_site
 
-    def test_hello_world(self):
+    def test_hello_world_with_webob(self):
         wsgi_site = self._loadapp()
         resp = webob.Request.blank('/').get_response(wsgi_site)
 
@@ -88,6 +90,15 @@ class WsgiDeployTestCase(base.ThinkingTestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.body, "app1,filter2,filter1")
 
+    def test_hello_world_with_webtest(self):
+        wsgi_site = self._loadapp()
+        app =  webtest.TestApp(wsgi_site)
+        resp = app.get('/')
+        print("resp=%s" % (resp))
+
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.body, "app1,filter2,filter1")
+        
     def test_hello_world_with_server(self):
         import eventlet
         eventlet.monkey_patch(os=False)

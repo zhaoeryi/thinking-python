@@ -1,10 +1,11 @@
 import httplib2
 import webob
+import webtest
 from thinking.tests import base
 from thinking.web import wsgi_server
 
 
-def app(environ, start_response):
+def hello_world(environ, start_response):
     start_response('200 OK', [('Content-Type', 'text/plain')])
     return ["hello world"]
 
@@ -22,9 +23,9 @@ class middleware(object):
 
 class WsgiMiddleWareTestCase(base.ThinkingTestCase):
 
-    def test_wsgi_middleware(self):
+    def test_wsgi_middleware_with_webob(self):
         # We warp the original WSGI application with middleware
-        site = middleware(app)
+        site = middleware(hello_world)
         resp = webob.Request.blank('/').get_response(site)
 
         print("resp=%s" % (resp))
@@ -32,11 +33,22 @@ class WsgiMiddleWareTestCase(base.ThinkingTestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.body, "hello world with middleware")
 
+    def test_wsgi_middleware_with_webtest(self):
+        # We warp the original WSGI application with middleware
+        site = middleware(hello_world)
+        app = webtest.TestApp(site)
+        resp = app.get('/')
+        print("resp=%s" % (resp))
+
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.body, "hello world with middleware")
+        
+
     def test_wsgi_middleware_with_server(self):
         import eventlet
         eventlet.monkey_patch(os=False)
 
-        site = middleware(app)
+        site = middleware(hello_world)
         server = wsgi_server.WsgiServer("test_hello_world", app=site,
                                   host="127.0.0.1", port=8080)
         server.start()
